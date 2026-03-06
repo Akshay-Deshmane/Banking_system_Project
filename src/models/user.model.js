@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
         trim : true,
         lowercase : true,
         // match is used to check given email is in standard email formate or not 
-        match : [/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$/,"Invalid Email Address"],
+        match : [/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,"Invalid Email Address"],
         unique : [true, "Email already exists"]
     }, 
     name : {
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
 // some pre authorization befor saving the changes in db
 userSchema.pre("save", async function(next) {
     if (!this.isModified("password")) {
-        return next();
+        return 
     }
 
     // hash the password and then save it to db
@@ -40,7 +40,7 @@ userSchema.pre("save", async function(next) {
     // then replace the original password with new hashed password
     this.password = hash
 
-    return next();
+    return 
 })
 
 
