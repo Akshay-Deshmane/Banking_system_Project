@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-
+// creating an transaction schema 
 const transactionSchema = new mongoose.Schema({
     fromAccount : {
         type : mongoose.Schema.Types.ObjectId,
@@ -34,7 +34,7 @@ const transactionSchema = new mongoose.Schema({
         unique : true
     }
 }, {
-    timestamps : ture
+    timestamps : true
 })
 
 
