@@ -59,52 +59,59 @@ src
 ├── app.js         # Express app initialization
 └── server.js      # Server entry point
 
+```
 
 -> API EndpointsAuthentication :-
 
+```
 Method    Endpoint             Description
 POST      /api/auth/register   Register a new user
 POST      /api/auth/login      Login and receive JWT
 POST      /api/auth/logout     Invalidate token and logout
-
+```
 
 -> Account Operations :- 
 
+```
 Method  Endpoint                     Description
 POST    /api/accounts                Open a new bank account
 GET     /api/accounts                List all accounts for the user
 GET     /api/accounts/balance/:id    Get specific account balance
-
+```
 
 -> Transactions :-
 
+```
 Method  Endpoint                    Description
 POST    /api/transactions           Transfer funds (requires Auth)
 POST    /api/transactions/system    System-level initial funding
-
-
+```
 
 Setup & Installation
 
 1. Environment Variables
 
 Create a .env file in the root directory:
-
+```
 PORT=3000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
+```
 
 2. Install Dependencies
 
+```
 npm install
+```
 
 3. Run the Project
-
+```
 # Development mode
 npm run dev
 
 # Production mode
 npm start
+```
 
 -> The server will be available at http://localhost:3000
 
