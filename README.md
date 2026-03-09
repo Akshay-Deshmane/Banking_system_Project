@@ -90,3 +90,44 @@ Setup & Installation
 
 Create a .env file in the root directory:
 
+PORT=3000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+
+2. Install Dependencies
+
+npm install
+
+3. Run the Project
+
+# Development mode
+npm run dev
+
+# Production mode
+npm start
+
+-> The server will be available at http://localhost:3000
+
+
+-> Security & Integrity Considerations :- 
+
+1. Data Consistency :- MongoDB sessions prevent partial updates during server failures.
+
+2. Immutability :- Ledger records are append-only, they cannot be edited or deleted once written.
+
+3. Middleware Protection :- Routes are guarded by custom authMiddleware to verify JWTs before processing requests.
+
+
+
+-> Future Improvements :-
+
+1. Integration of Swagger/OpenAPI for interactive API documentation.
+
+2. Rate Limiting to prevent brute-force attacks on auth endpoints.
+
+3. Unit Testing with Jest to ensure transaction logic accuracy.
+
+4. Role-Based Access Control (RBAC) to separate Admin and Customer actions.
+
+
+-> Author :- Akshay Deshmane
