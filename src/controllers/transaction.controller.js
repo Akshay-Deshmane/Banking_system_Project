@@ -276,10 +276,6 @@ async function createTransaction(req, res) {
 
 
 
-
-
-
-// gpt suggested code 
 async function createInitialFundsTransaction(req, res) {
 
     const { toAccount, amount, idempotencyKey } = req.body

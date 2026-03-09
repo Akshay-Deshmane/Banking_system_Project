@@ -105,6 +105,7 @@ npm install
 ```
 
 3. Run the Project
+
 ``` bash
 # Development mode
 npm run dev
