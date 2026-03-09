@@ -92,7 +92,7 @@ Setup & Installation
 1. Environment Variables
 
 Create a .env file in the root directory:
-```
+```env
 PORT=3000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
@@ -100,12 +100,12 @@ JWT_SECRET=your_secret_key
 
 2. Install Dependencies
 
-```
+``` bash 
 npm install
 ```
 
 3. Run the Project
-```
+``` bash
 # Development mode
 npm run dev
 
