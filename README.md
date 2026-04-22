@@ -1,141 +1,376 @@
-# Banking System Backend API
+# LedgerCore => (Secure Transaction & Ledger Management System)
 
-This project implements a robust financial architecture featuring user authentication, account management, and fund transfers. It ensures transaction integrity and consistency through a **ledger-based architecture** and **atomic MongoDB transactions**.
+A powerful **backend-driven financial transaction system** built using **Node.js, Express, and MongoDB**, designed to manage **account-based transactions with a complete audit trail (ledger system)**.
 
----
-
-## Overview
-
-The API simulates a core banking backend service designed for reliability and security. Key architectural highlights include:
-* **MVC Pattern:** Modular structure with clear separation of concerns.
-* **Ledger-based Accounting:** Balances are derived from immutable transaction logs rather than a single "balance" field, ensuring auditability.
-* **Atomicity:** Uses MongoDB sessions/transactions to ensure "all-or-nothing" transfers.
-* **Idempotency:** Prevents duplicate processing of the same transaction request.
+This project demonstrates how real-world financial systems handle **transaction tracking, sender-receiver relationships, and secure data flow** using **modular architecture and industry-standard backend practices**.
 
 ---
 
-##  Key Features
+## Overview =>
 
-### Authentication & Security
-* **JWT-based Auth:** Secure user registration and login.
-* **Token Blacklisting:** Handles secure logouts by invalidating tokens.
-* **Password Hashing:** Uses `bcryptjs` for protecting user credentials.
-* **Cookie-based sessions:** Enhanced security for web-based clients via `cookie-parser`.
+LedgerCore is a backend system that simulates a **core banking transaction engine**, responsible for managing:
 
-### Account Management
-* **Multi-Account Support:** Users can create and manage multiple bank accounts.
-* **Status Lifecycle:** Accounts transition between `ACTIVE`, `FROZEN`, and `CLOSED`.
-* **Real-time Balance:** Accurate balance calculation based on ledger history.
+* User authentication
+* Account management
+* Transaction processing
+* Ledger (audit trail) tracking
 
-### Transactions & Ledger
-* **Atomic Transfers:** Ensures funds are never lost between accounts during a transfer.
-* **Immutable Ledger:** Every credit and debit is recorded permanently to prevent fraud.
-* **Calculation Logic:** `Balance = Σ(Credits) - Σ(Debits)`
-* **System Funding:** Protected endpoints for initial system liquidity.
+It leverages :-
 
----
+* **JWT Authentication** for secure user access
+* **MongoDB (Mongoose)** for structured financial data storage
+* **Ledger Model** to maintain a **complete audit trail of transactions**
+* **Express.js** for scalable REST API design
+* **Middleware-based security** for protected routes
 
-## Tech Stack
+It solves a key problem in backend systems :-
 
-| Layer | Technology |
-| :--- | :--- |
-| **Runtime** | Node.js |
-| **Framework** | Express.js |
-| **Database** | MongoDB & Mongoose ODM |
-| **Auth** | JSON Web Tokens (JWT) & bcryptjs |
-| **Dev Tools** | Nodemon, Dotenv, Postman |
+> *Maintaining consistent, traceable, and secure financial transactions between multiple entities*
+
+LedgerCore ensures that **every transaction is recorded, traceable, and securely processed**.
 
 ---
 
-## Project Structure (file structure)
+## Features =>
 
-```text
-src
-├── config         # Database & environment configurations
-├── controllers    # Request handling logic (Auth, Account, Transaction)
-├── middleware     # Auth guards and error handling
-├── models         # Mongoose schemas (User, Account, Transaction, Ledger, Blacklist)
-├── routes         # API endpoint definitions
-├── app.js         # Express app initialization
-└── server.js      # Server entry point
+* Secure JWT-based authentication system
+* Account creation and management
+* Balance tracking per account
+* Transaction processing between accounts
+* System-generated transactions (initial fund injection)
+* Ledger system for complete audit trail
+* Sender & receiver tracking for each transaction
+* Password hashing using bcrypt
+* Protected routes using authentication middleware
+* Token blacklisting (logout security)
+* Modular MVC backend architecture
+* Scalable API design
 
-```
+---
 
--> API EndpointsAuthentication :-
-
-```
-Method    Endpoint             Description
-POST      /api/auth/register   Register a new user
-POST      /api/auth/login      Login and receive JWT
-POST      /api/auth/logout     Invalidate token and logout
-```
-
--> Account Operations :- 
+## Project Architecture =>
 
 ```
-Method  Endpoint                     Description
-POST    /api/accounts                Open a new bank account
-GET     /api/accounts                List all accounts for the user
-GET     /api/accounts/balance/:id    Get specific account balance
+Client (Postman / Frontend)
+        ↓
+HTTP Request (Auth / Account / Transaction APIs)
+        ↓
+Express Server
+        ↓
+Routes → Controllers
+        ↓
+Business Logic (Transaction Processing)
+        ↓
+Authentication Middleware (JWT Verification)
+        ↓
+Database Layer (MongoDB via Mongoose)
+        ↓
+Models:
+   - User
+   - Account
+   - Transaction
+   - Ledger (Audit Trail)
+   - Blacklist (Token Security)
+        ↓
+Response (JSON Data)
 ```
 
--> Transactions :-
+---
 
+## Tech Stack =>
+
+| Technology     | Purpose                   |
+| -------------- | ------------------------- |
+| Node.js        | Runtime environment       |
+| Express.js     | Backend framework         |
+| MongoDB        | Database                  |
+| Mongoose       | ODM for MongoDB           |
+| JSON Web Token | Authentication mechanism  |
+| bcryptjs       | Password hashing          |
+| cookie-parser  | Cookie handling           |
+| dotenv         | Environment configuration |
+
+---
+
+## Installation & Setup =>
+
+```bash
+# Clone the repository
+git clone https://github.com/Akshay-Deshmane/Ledgercore.git
+
+# Navigate to project directory
+cd ledgercore
 ```
-Method  Endpoint                    Description
-POST    /api/transactions           Transfer funds (requires Auth)
-POST    /api/transactions/system    System-level initial funding
-```
 
-Setup & Installation
+---
 
-1. Environment Variables
+### Setup Environment Variables =>
 
-Create a .env file in the root directory:
+Create a `.env` file:
+
 ```env
-PORT=3000
-MONGO_URI=your_mongodb_connection_string
+MONGO_URI=your_mongodb_connection
 JWT_SECRET=your_secret_key
 ```
 
-2. Install Dependencies
+---
 
-``` bash 
+### Run the Server =>
+
+```bash
 npm install
-```
-
-3. Run the Project
-
-``` bash
-# Development mode
 npm run dev
-
-# Production mode
-npm start
 ```
 
--> The server will be available at http://localhost:3000
+Server runs on:
 
+```
+http://localhost:3000
+```
 
--> Security & Integrity Considerations :- 
+---
 
-1. Data Consistency :- MongoDB sessions prevent partial updates during server failures.
+## Workflow Of LedgerCore =>
 
-2. Immutability :- Ledger records are append-only, they cannot be edited or deleted once written.
+### 1. User Registration :-
 
-3. Middleware Protection :- Routes are guarded by custom authMiddleware to verify JWTs before processing requests.
+* User provides credentials
+* Password is hashed using bcrypt
+* User stored in database
 
+---
 
+### 2. User Login :-
 
--> Future Improvements :-
+* User authenticates using credentials
+* JWT token is generated
+* Token used for accessing protected APIs
 
-1. Integration of Swagger/OpenAPI for interactive API documentation.
+---
 
-2. Rate Limiting to prevent brute-force attacks on auth endpoints.
+### 3. Account Creation :-
 
-3. Unit Testing with Jest to ensure transaction logic accuracy.
+* User creates a financial account
+* Account linked to user ID
+* Used for sending/receiving transactions
 
-4. Role-Based Access Control (RBAC) to separate Admin and Customer actions.
+---
 
+### 4. Transaction Processing :-
 
--> Author :- Akshay Deshmane
+* Sender initiates transaction
+* Receiver account is identified
+* System validates:
+
+  * Sender authentication
+  * Account existence
+* Transaction is created and stored
+
+---
+
+### 5. System Initial Funds :-
+
+* Special system-level route injects funds
+* Used to simulate **bank/system credit transactions**
+* Demonstrates **real-world financial system behavior**
+
+---
+
+### 6. Ledger Entry Creation :-
+
+* Every transaction generates a **ledger entry**
+* Stores:
+
+  * Sender details
+  * Receiver details
+  * Transaction metadata
+* Ensures **complete audit trail & traceability**
+
+---
+
+### 7. Balance Tracking :-
+
+* Each account has balance tracking
+* Balance can be fetched via API
+* Ensures visibility of financial state
+
+---
+
+### 8. Access Protected Routes :-
+
+```js
+Authorization: Bearer <JWT_TOKEN>
+```
+
+* Middleware verifies token
+* Grants access to secured endpoints
+
+---
+
+### 9. Logout & Security :-
+
+* Token added to blacklist
+* Prevents reuse of invalidated tokens
+
+---
+
+## API Endpoints =>
+
+### Auth Routes
+
+| Method | Endpoint           | Description   |
+| ------ | ------------------ | ------------- |
+| POST   | /api/auth/register | Register user |
+| POST   | /api/auth/login    | Login user    |
+| POST   | /api/auth/logout   | Logout user   |
+
+---
+
+### Account Routes (Protected)
+
+| Method | Endpoint                         | Description         |
+| ------ | -------------------------------- | ------------------- |
+| POST   | /api/accounts/                   | Create account      |
+| GET    | /api/accounts/                   | Get user accounts   |
+| GET    | /api/accounts/balance/:accountId | Get account balance |
+
+---
+
+### Transaction Routes (Protected)
+
+| Method | Endpoint                              | Description                     |
+| ------ | ------------------------------------- | ------------------------------- |
+| POST   | /api/transaction/                     | Create transaction              |
+| POST   | /api/transaction/system/initial-funds | System-generated fund injection |
+
+---
+
+## Key Engineering Concepts =>
+
+### 1. Ledger System (Audit Trail) :-
+
+* Every transaction is recorded in a separate ledger collection
+* Ensures:
+
+  * Traceability
+  * Transparency
+  * Historical tracking
+
+---
+
+### 2. Transaction Integrity :-
+
+* Maintains sender & receiver mapping
+* Ensures structured transaction records
+* Simulates real banking transaction flow
+
+---
+
+### 3. Authentication & Security :-
+
+* JWT-based authentication
+* Password hashing using bcrypt
+* Token blacklisting for logout security
+
+---
+
+### 4. Modular Backend Architecture :-
+
+* Separation of concerns:
+
+  * Routes → Controllers → Models
+* Improves scalability and maintainability
+
+---
+
+### 5. System-Level Transaction Handling :-
+
+* Supports **system-generated transactions**
+* Simulates real banking scenarios like:
+
+  * Initial account funding
+  * Internal system credits
+
+---
+
+## Project Structure =>
+
+```
+LedgerCore/
+│
+├── src/
+│   ├── config/
+│   │   └── db.js
+│   │
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── account.controller.js
+│   │   └── transaction.controller.js
+│   │
+│   ├── middleware/
+│   │   └── auth.middleware.js
+│   │
+│   ├── models/
+│   │   ├── user.model.js
+│   │   ├── account.models.js
+│   │   ├── transaction.models.js
+│   │   ├── ledger.models.js
+│   │   └── blackList.model.js
+│   │
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   ├── account.routes.js
+│   │   └── transaction.routes.js
+│
+├── .env
+├── package.json
+├── server.js
+└── README.md
+```
+
+---
+
+## Example Usage =>
+
+```
+POST /api/transaction/
+
+Request:
+{
+  "senderAccountId": "123",
+  "receiverAccountId": "456",
+  "amount": 500
+}
+
+Response:
+{
+  "message": "Transaction successful",
+  "transactionId": "txn_789"
+}
+```
+
+---
+
+## Limitations Of LedgerCore =>
+
+* No concurrency control (race condition handling not implemented)
+* No transaction rollback (ACID properties not fully enforced)
+* No rate limiting (API abuse protection missing)
+* No role-based access control (RBAC)
+* No real payment gateway integration
+
+---
+
+## Future Enhancements / Future Scope =>
+
+* ACID-compliant transaction handling (MongoDB sessions)
+* Concurrency control & locking mechanisms
+* Role-Based Access Control (RBAC)
+* Real-time transaction notifications
+* React-based dashboard UI
+* Integration with payment gateways (Stripe/Razorpay)
+* Rate limiting & API security enhancements
+* Microservices-based architecture
+* Docker & cloud deployment (AWS/GCP)
+
+---
